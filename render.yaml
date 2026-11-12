@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: ai-compass-evallab
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r backend/requirements.lock.txt && npm --prefix frontend ci && npm --prefix frontend run build
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    disk:
+      name: evallab-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: EVALLAB_DATA_DIR
+        value: /var/data
+      - key: EVALLAB_PUBLIC_READONLY
+        value: "true"
+      - key: EVALLAB_API_TOKEN
+        generateValue: true
+      - key: LANGSMITH_TRACING
+        value: "true"
+      - key: LANGSMITH_PROJECT
+        value: ai-compass-evallab
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: LANGSMITH_API_KEY
+        sync: false

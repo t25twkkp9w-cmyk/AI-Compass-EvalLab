@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv
+.python
+node_modules
+.next
+out
+runtime
+__pycache__
+.pytest_cache
+*.tsbuildinfo
+.setup-cache
+.npm-cache
